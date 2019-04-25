@@ -5,7 +5,11 @@ import itchat
 import os
 # 导入Pillow，Python的图像处理库
 import PIL.Image as Image
+# 导入用来获取头像列表
 from os import listdir
+# 导入math做开平方使用
+import math
+
 #自动登陆，会出现二维码，扫码确认后登陆微信
 itchat.auto_login(enableCmdQR=0)
 #get_friends获取所有好友信息函数，返回list存储到friends变量
@@ -29,12 +33,8 @@ for i in friends:
 	fileImage.write(img)
 	fileImage.close()
 	num += 1
-
+# 获取返回得好友头像存储到ls
 ls = os.listdir(user)
-
-numPic = len(ls)
-
-print(numPic)
 
 eachsize_line = int(math.sqrt(ls))
 eachsize_row = int(math.sqrt(ls))
