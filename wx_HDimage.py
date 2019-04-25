@@ -1,75 +1,65 @@
 #coding=utf-8
-# from numpy import *
+
+# 导入Itchat，一个封装好的微信接口库
 import itchat
 import os
-
+# 导入Pillow，Python的图像处理库
 import PIL.Image as Image
 from os import listdir
-import math
 
-# itchat.auto_login(enableCmdQR=0)
+itchat.auto_login(enableCmdQR=0)
 
-# friends = itchat.get_friends(update=True)
+friends = itchat.get_friends(update=True)
 
-# user = friends[0]["UserName"]
+user = friends[0]["UserName"]
 
-# print(user)
+print(user)
 
-# os.mkdir(user)
+os.mkdir(user)
 
-# num = 0
+num = 0
 
-# for i in friends:
-# 	img = itchat.get_head_img(userName=i["UserName"])[0:]
-# 	fileImage = open(user + "/" + str(num) + ".jpg",'wb')
-# 	fileImage.write(img)
-# 	fileImage.close()
-# 	num += 1
+for i in friends:
+	img = itchat.get_head_img(userName=i["UserName"])[0:]
+	fileImage = open(user + "/" + str(num) + ".jpg",'wb')
+	fileImage.write(img)
+	fileImage.close()
+	num += 1
 
-# print "下载头像结束"
-ls = os.listdir('./f5e04e2d800aa1d1afc5458b2f1387953beb25ed97009fa590d8bae1178b5a7d')
-# pics = listdir(user)
+ls = os.listdir(user)
 
 numPic = len(ls)
 
 print(numPic)
 
-eachsize_line = 35
-eachsize_row = 75
+eachsize_line = int(math.sqrt(ls))
+eachsize_row = int(math.sqrt(ls))
 
 print(eachsize_line,eachsize_row)
 
-# numline = int(640 / eachsize)
 
-toImage = Image.new('RGBA', (200 * eachsize_line, 200 * eachsize_row))
-
-
-# print(numline)
+toImage = Image.new('RGBA', (110 * eachsize_line, 110 * eachsize_row))
 
 x = 0
 y = 0
 
-for i in range(0,2627):
+for i in ls:
 	try:
-		#打开图片
-		img = Image.open('./f5e04e2d800aa1d1afc5458b2f1387953beb25ed97009fa590d8bae1178b5a7d' + "/" + str(i) + ".jpg")
-		# if img.mode != "RGBA":
-		# 	img = img.covert("RGBA")
+		#从./images打开图片
+		img = Image.open('./images' + "/" + str(i) + ".jpg")
 	except IOError:
 		print (i)
-		print("Error: 没有找到文件或读取文件失败")
+		print("异常捕获，不影响结果")
 	else:
-		#缩小图片
-		img = img.resize((200, 200), Image.ANTIALIAS)
+		#按微信640*640等比例缩放64倍
+		img = img.resize((110, 110), Image.ANTIALIAS)
 		#拼接图片
-		toImage.paste(img, (x * 200, y * 200))
+		toImage.paste(img, (x * 110, y * 110))
 		x += 1
 		if x == eachsize_line:
 			x = 0
 			y += 1
 
+toImage.save('./images' + "all.jpg")
 
-toImage.save('./f5e04e2d800aa1d1afc5458b2f1387953beb25ed97009fa590d8bae1178b5a7d' + "all.jpg")
-
-
-itchat.send_image('./f5e04e2d800aa1d1afc5458b2f1387953beb25ed97009fa590d8bae1178b5a7d' + ".jpg", 'filehelper')
+itchat.send_image('./images' + ".jpg", 'filehelper')
