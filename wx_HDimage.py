@@ -18,7 +18,7 @@ print(user)
 os.mkdir(user)
 
 num = 0
-
+#列表下载所有好友头像并存储在/user
 for i in friends:
 	img = itchat.get_head_img(userName=i["UserName"])[0:]
 	fileImage = open(user + "/" + str(num) + ".jpg",'wb')
@@ -46,7 +46,7 @@ y = 0
 for i in ls:
 	try:
 		#从./images打开图片
-		img = Image.open('./images' + "/" + str(i) + ".jpg")
+		img = Image.open('user' + "/" + str(i) + ".jpg")
 	except IOError:
 		print (i)
 		print("异常捕获，不影响结果")
@@ -60,6 +60,6 @@ for i in ls:
 			x = 0
 			y += 1
 
-toImage.save('./images' + "all.jpg")
+toImage.save('user' + "all.jpg")
 
-itchat.send_image('./images' + ".jpg", 'filehelper')
+itchat.send_image('user' + ".jpg", 'filehelper')
