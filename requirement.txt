@@ -1,0 +1,5 @@
+环境配置
+1、安装python 2.7 没有安装的自行安装
+2、安装python包，自行安装
+Pillow Python的图像处理库
+Itchat 一个封装好的微信接口库
